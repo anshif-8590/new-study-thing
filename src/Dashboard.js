@@ -1,29 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const DashboardItems =[
-  {id:1,title:"My Name",},
-  {id:2,title:"My Money",},
-  {id:3,title:"My House",}
-]
+const Dashboard  = () => {
+  const [users,setUsers] = useState([])
 
-function Dashboard() {
+  useEffect(()=>{
+    fetch("https://jsonplaceholder.typicode.com/users")
+    .then((response) => response.json())
+    .then((data) => setUsers(data))
+    .catch((error) => console.error("Error Fetching users"+error))
+  },[])
+console.log(users);
+
   return (
     <div>
       <h1>Dashboard</h1>
       <ul>
-        {DashboardItems.map((item)=>(
-          <li key={item.id}>
-            <Link to={`/dashboard/${item.id}`}>
-            <h2>{item.id}</h2>
+        {/* {console.log(users)} */}
+        {users.map((user)=>{
+          <li key={user.id}>
+            
+            <Link to={`/dashboard/${user.id}`}>
+            {/* {console.log(user.id)} */}
+            <h1>{user.name}</h1>
+            <h2>{user}</h2>
+            {/* {console.log(user.name)} */}
             </Link>
-
-
           </li>
-        ))}
+        })}
       </ul>
     </div>
   )
 }
+
+
+ 
+
 
 export default Dashboard
